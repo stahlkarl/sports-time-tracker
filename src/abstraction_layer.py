@@ -41,7 +41,8 @@ class AL:
     self.cursor.execute("SELECT * FROM runners where group_id = %i" % group_id)
     for runner in self.cursor.fetchall():
       runner = self.db_res_to_dic(runner)
-      self.stop_runner(runner['id'])
+      if runner['stop_time'] == 0:
+        self.stop_runner(runner['id'])
 
   def running_runners(self):
     runners = []
