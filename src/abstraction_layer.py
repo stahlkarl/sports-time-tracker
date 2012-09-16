@@ -37,6 +37,12 @@ class AL:
     self.cursor.execute("UPDATE runners SET stop_time = %i WHERE id = %i" % (int(time.time()), runner_id))
     self.dbc.commit()
 
+  def stop_group(self, group_id):
+    self.cursor.execute("SELECT * FROM runners where group_id = %i" % group_id)
+    for runner in self.cursor.fetchall():
+      runner = self.db_res_to_dic(runner)
+      self.stop_runner(runner['id'])
+
   def running_runners(self):
     runners = []
     self.cursor.execute("SELECT * FROM runners WHERE stop_time = 0")
